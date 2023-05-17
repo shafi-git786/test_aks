@@ -44,7 +44,7 @@ jobs:
         with:
          push: true
          tags: tamopsgithubacr.azurecr.io/aspcoresample:${{ github.sha }}
-         file: aspnet-core-dotnet-core/Dockerfile
+         file: test_aks/Dockerfile
 
       - name: Deploy to AKS
         uses: azure/aks-set-context@v1
