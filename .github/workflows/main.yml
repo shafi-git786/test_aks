@@ -32,12 +32,12 @@ jobs:
          password: ${{ secrets.AZ_SP_CLIENT_SECRET }}
 
 
-#       - name: Build and push Docker image to Azure Container Registry
-#         env:
-#           IMAGE_NAME: mynewimageaks
-#           IMAGE_TAG: ${{ github.run_number }}
-#           run: |
-#             docker buildx build --push --tag ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
+      - name: Build and push Docker image to Azure Container Registry
+        env:
+          IMAGE_NAME: mynewimageaks
+          IMAGE_TAG: ${{ github.run_number }}
+          run: |
+            docker buildx build --push --tag ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
         
 #       - name: Build the frontend image and push it to ACR
 #         uses: docker/build-push-action@v2
@@ -46,10 +46,10 @@ jobs:
 #          tags: tamopsgithubacr.azurecr.io/aspcoresample:${{ github.sha }}
 #          file: test_aks/Dockerfile
 
-      - name: Push Docker image to Azure Container Registry
-        run: |
-          docker tag mynewimageaks:latest ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mynewimageaks:${{ github.sha }}
-          docker push ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mynewimageaks:${{ github.sha }}    
+#       - name: Push Docker image to Azure Container Registry
+#         run: |
+#           docker tag mynewimageaks:latest ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mynewimageaks:${{ github.sha }}
+#           docker push ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mynewimageaks:${{ github.sha }}    
 
       - name: Deploy to AKS
         uses: azure/aks-set-context@v1
