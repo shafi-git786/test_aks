@@ -48,8 +48,8 @@ jobs:
 
       - name: Push Docker image to Azure Container Registry
         run: |
-          docker tag mydemoapp:latest ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mydemoapp:${{ github.sha }}
-          docker push ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mydemoapp:${{ github.sha }}    
+          docker tag mynewimageaks:latest ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mynewimageaks:${{ github.sha }}
+          docker push ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mynewimageaks:${{ github.sha }}    
 
       - name: Deploy to AKS
         uses: azure/aks-set-context@v1
