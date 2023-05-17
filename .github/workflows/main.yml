@@ -29,8 +29,8 @@ jobs:
 
     - name: Build and push Docker image to Azure Container Registry
       env:
-        IMAGE_NAME: mydemoapp
-        IMAGE_TAG: ${{ github.sha }}
+        IMAGE_NAME: mynewimageaks
+        IMAGE_TAG: ${{ github.run_number }}
       run: |
         docker buildx build --push --tag ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
 
@@ -49,6 +49,6 @@ jobs:
       uses: azure/k8s-deploy@v1
       with:
         manifests: |
-          shaaksdeploy.yml
+          kubernetes/deployment.yml
         images: |
-          ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mydemoapp:${{ github.sha }}
+          ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mynewimageaks:${{ github.run_number }}
