@@ -7,8 +7,7 @@ on:
   pull_request:
     branches:  none # [ main ]
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
- 
+workflow_dispatch: 
 
 jobs:
   push-and-deploy-to-aks:
@@ -51,6 +50,3 @@ jobs:
           images: |
             ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mydemoapp:${{ github.sha }}
 
-
-has context menu
-Compose
