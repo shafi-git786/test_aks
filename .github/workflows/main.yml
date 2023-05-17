@@ -17,12 +17,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       
-      - name: docker build image and push docker registry
-        uses: docker/build-push-action@v4
-        with:
-         context: .
-         push: true
-         tags: shadocker/mynew-app:${{ github.run_number }}  
+#       - name: docker build image and push docker registry
+#         uses: docker/build-push-action@v4
+#         with:
+#          context: .
+#          push: true
+#          tags: shadocker/mynew-app:${{ github.run_number }}  
 
       - name: Login to Azure Container Registry
         uses: azure/docker-login@v1
@@ -32,12 +32,19 @@ jobs:
          password: ${{ secrets.AZ_SP_CLIENT_SECRET }}
 
 
-      - name: Build and push Docker image to Azure Container Registry
-        env:
-          IMAGE_NAME: mynewimageaks
-          IMAGE_TAG: ${{ github.run_number }}
-          run: |
-            docker buildx build --push --tag ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
+#       - name: Build and push Docker image to Azure Container Registry
+#         env:
+#           IMAGE_NAME: mynewimageaks
+#           IMAGE_TAG: ${{ github.run_number }}
+#           run: |
+#             docker buildx build --push --tag ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
+        
+      - name: Build the frontend image and push it to ACR
+        uses: docker/build-push-action@v2
+        with:
+         push: true
+         tags: tamopsgithubacr.azurecr.io/aspcoresample:${{ github.sha }}
+         file: aspnet-core-dotnet-core/Dockerfile
 
       - name: Deploy to AKS
         uses: azure/aks-set-context@v1
