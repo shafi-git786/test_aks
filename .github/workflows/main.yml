@@ -1,9 +1,17 @@
 name: Push to Azure Container Registry and Deploy to AKS
+# on:
+#   push:
+#     branches:
+#       - main
 on:
-  push:
-    branches:
-      - main
-
+  push:
+    branches: [ main ]
+    #paths: .github/workflows/
+  pull_request:
+    branches:  none # [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
 jobs:
   push-and-deploy-to-aks:
     runs-on: ubuntu-latest
@@ -12,8 +20,8 @@ jobs:
         uses: actions/checkout@v2
 
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
  
 
       - name: Login to Azure Container Registry
@@ -36,14 +44,14 @@ jobs:
         uses: azure/aks-set-context@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          resource-group: gitakstest
-          cluster-name: gitakstestcluster
+          resource-group: shafi-rgg
+          cluster-name: shafi-aks-test2
 
  
       - name: Apply Kubernetes deployment
         uses: azure/k8s-deploy@v1
         with:
           manifests: |
-            kubernetes/pyflask.yaml
+            shaaksdeploy.yml.yaml
           images: |
             ${{ secrets.ACR_REGISTRY_NAME }}.azurecr.io/mydemoapp:${{ github.sha }}
